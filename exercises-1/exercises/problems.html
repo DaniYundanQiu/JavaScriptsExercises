@@ -1,0 +1,114 @@
+<!-- ############################################ -->
+<!-- 🤓 Just some hacky code. Nothing to see here! -->
+<!-- ############################################ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Basics 1: Types</title>
+</head>
+<body>
+    <h1>JS Basics 1: Types - Problem results</h1>
+    <p>Remember to open your dev tools by pressing F12 to view log messages and errors!</p>
+    <p> (Refresh to update) </p>
+    <style>
+        body {
+            width: 50%;
+            margin: 0 auto;
+            font-family: sans-serif;
+            padding-bottom: 100px;
+        }
+    </style>
+    <script src="./problems.js"></script>
+    <script type="text/javascript">
+        const print = (str, elem='div') => {
+            const line = document.createElement(elem);
+            line.innerText = str;
+            document.body.appendChild(line);
+        }
+        const assert = (desc, pass, got="") => {
+            if (pass) {
+                print(`✅ ${desc}`)
+            } else {
+                print(`❌ ${desc} ${got==="" ? "" : `(got ${got})`}`)
+            }
+        }
+        const getBody = fn => (String(fn).match(/{(.+)}/s) || ["",""])[1]
+        const wrapSolution = (wrapper, solution) => `const solutionFn = ${String(wrapper).replace("//SOLUTION", solution)}`
+
+        if (window.answers === undefined) {
+            print("😱 Unable to load answers file! Check error message in console", "b")
+        }
+    
+        const sections = getBody(window.answers)
+            .split(/\/\/ #[0-9]+ /gm)
+            .slice(1)
+            .map(x => '//' + x)
+            .map(x => x.replace(/\/\/.+/g, ""))
+        
+        const setup = {
+            2: () => {
+                const w = " "
+                const x = "a"
+                const y = " ba"
+                const z = "na"
+            }
+        }
+
+        const wrapper = {
+            6: (hour) => {
+                //SOLUTION
+                return greeting
+            }
+        }
+
+        const assertions = [
+            () => {
+                assert("result equals 65", result === 65, result);
+                const brackets = (solution.match(/\(/g) || []).length
+                assert("didn't use more brackets than you need", brackets <= 1);
+            },
+            () => {
+                assert("got the correct result", fruity === "a banana", fruity);
+            },
+            () => {
+                assert("got the correct result", fruity2 === "a ba ba banana na", fruity2);
+                const strings = (solution.match(/"/g) || []).length / 2;
+                assert("didn't cheat", strings === 0, `found ${strings} string literals!`);
+            },
+            () => {
+                assert("sheep counted correctly", sheepCount > 0, sheepCount);
+                assert("no global variables", solution.includes("let") || solution.includes("var"));
+            },
+            () => {
+                const correct = [
+                    a1==="101", a3==="101", a6==="101", a7=="101",
+                    typeof a2 == "undefined", typeof a4 == "undefined", typeof a5 == "undefined", typeof a8 == "undefined"
+                ].filter(x => x).length
+                assert(`${correct}/8 correct`, correct === 8)
+            },
+            () => {
+                assert("ten equals 10", ten === 10, ten)
+            }
+        ];
+
+        sections
+            .map((s, i) => {
+                const wrapped = wrapper[i] ? wrapSolution(wrapper[i], s) : s
+                return [getBody(setup[i]), wrapped, `const solution=\`${s}\``, getBody(assertions[i])]
+            })
+            .forEach((bits, i) => {
+                print(`Exercise ${i+1}:`, 'h3')
+                try {
+                    console.log(new Function(bits.join(';\n')))
+                    new Function(bits.join(';\n'))()
+                } catch (err) {
+                    assert("code does not contain errors:", false, err)
+                }
+            });
+
+    </script>
+</body>
+</html>
