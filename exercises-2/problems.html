@@ -1,0 +1,186 @@
+<!-- ############################################ -->
+<!-- 🤓 Just some hacky code. Nothing to see here! -->
+<!-- ############################################ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Basics 2: Control and Functions</title>
+</head>
+<body>
+    <h1>JS Basics 2: Control and Functions - Problem results</h1>
+    <p>Remember to open your dev tools by pressing F12 to view log messages and errors!</p>
+    <p> (Refresh to update) </p>
+    <style>
+        body {
+            width: 50%;
+            margin: 0 auto;
+            font-family: sans-serif;
+            padding-bottom: 100px;
+        }
+    </style>
+    <script src="./problems.js"></script>
+    <script type="text/javascript">
+        const print = (str, elem='div') => {
+            const line = document.createElement(elem);
+            line.innerText = str;
+            document.body.appendChild(line);
+        }
+        const assert = (desc, pass, got="") => {
+            if (pass) {
+                print(`✅ ${desc}`)
+            } else {
+                print(`❌ ${desc} ${got==="" ? "" : `(got ${got})`}`)
+            }
+        }
+        const getBody = fn => (String(fn).match(/{(.+)}/s) || ["",""])[1]
+        const wrapSolution = (wrapper, solution) => `const solutionFn = ${String(wrapper).replace("//SOLUTION", solution)}`
+
+        if (window.answers === undefined) {
+            print("😱 Unable to load answers file! Check error message in console", "b")
+        }
+    
+        const sections = getBody(window.answers)
+            .split(/\/\/ #[0-9]+ /gm)
+            .slice(1)
+            .map(x => '//' + x)
+            .map(x => x.replace(/\/\/.+/g, ""))
+        
+        const setup = {
+            3: () => {
+                let logged = []
+                const console = { log: str => logged.push(str) }
+            },
+            4: () => {
+                let logged = []
+                const console = { log: str => logged.push(str) }
+            },
+            6: () => {
+                let logged = []
+                const console = { log: str => logged.push(str) }
+            },
+            11: () => {
+                let logged = [];
+                const console = { log: str => logged = str }
+            },
+            12: () => {
+                let logged = []
+                const console = { log: str => logged.push(str) }
+            },
+        }
+
+        const wrapper = {
+            0: (hour) => {
+                //SOLUTION
+                return greeting
+            },
+            1: (input) => {
+                //SOLUTION
+                return output
+            },
+            2: (numRabbits) => {
+                //SOLUTION
+                return rabbitString
+            },
+        }
+
+        const assertions = [
+            () => {
+                assert("still wishes good morning", solutionFn(11) === "Good morning", solutionFn(11))
+                assert("still wishes good afternoon", solutionFn(18) === "Good afternoon", solutionFn(18))
+                assert("wishes good evening", solutionFn(21) === "Good evening", solutionFn(21))
+                assert("wishes good evening at 19:00", solutionFn(19) === "Good evening", solutionFn(19))
+            },
+            () => {
+                assert("8 should give false", solutionFn(8) === false, true)
+                assert("3 should give true", solutionFn(3) === true, false)
+                assert("12 should give false", solutionFn(12) === false, true)
+                assert("13 should give false", solutionFn(13) === false, true)
+                assert("20 should give false", solutionFn(20) === false, true)
+                assert("100 should give true", solutionFn(100) === true, false)
+                assert("1001 should give false", solutionFn(1001) === false, true)
+                const ifs = (solution.match(/if/g) || []).length;
+                assert("only used a single if", ifs === 1, ifs)
+            },
+            () => {
+                assert("0 rabbits", solutionFn(0) === "There are 0 rabbits", solutionFn(0))
+                assert("1 rabbit", solutionFn(1) === "There is 1 rabbit", solutionFn(1))
+                assert("2 rabbits", solutionFn(2) === "There are 2 rabbits", solutionFn(2))
+                const ifs = (solution.match(/if/g) || []).length;
+                assert("didn't use an if statement", ifs === 0, ifs)
+            },
+            () => {
+                let result = logged.join()
+                assert("logs the numbers from 1 to 10", result==="1,2,3,4,5,6,7,8,9,10", result || "nothing") 
+            },
+            () => {
+                let result = logged.join()
+                assert("logs the numbers from 10 to 1", result==="10,9,8,7,6,5,4,3,2,1", result || "nothing") 
+            },
+            () => {
+                assert("got the right answer", sum === 4950, sum)
+            },
+            () => {
+                let result = logged.join()
+                assert("logs a square of numbers", result === "123,456,789", result || "nothing")
+            },
+            () => {
+                assert("got the right answer", lcf === 28, lcf)
+                assert("found a way to use a break statement to make it more efficient", solution.includes("break"))
+            },
+            () => {
+                assert("got the right answer", bigFib === 4181, bigFib)
+            },
+            () => {
+                assert("it's a pythagorean triplet", a*a + b*b === c*c && c !== 0, `a=${a}, b=${b}, c=${c}`)
+                assert("they sum to 1000", a + b + c === 1000, a + b + c)
+            },
+            () => {
+                assert("multiplies 2, 3 and 4 to get 24", product(2, 3, 4) === 24, product(2, 3, 4))
+            },
+            () => {
+                try {
+                    assert("there is a function called exclaim", typeof exclaim === "function", exclaim)
+                    try {
+                        exclaim("I love JavaScript")
+                        assert("it exclaims", logged === "I love JavaScript!", logged)
+                    } catch (err) {
+                        assert("it doesn't error", false, err)
+                    }
+                } catch (err) {
+                    assert("there is a function called exclaim", false)
+                }
+                assert("doesn't use unnecessary return", !solution.includes("return"))
+            },
+            () => {
+                let result = logged.join()
+                assert("logs the correct sequence", result === "A,B,C,D,E", result || "nothing")
+            },
+            () => {
+                assert("works for 1848 and 1820", largestCommonFactor(1848, 1820) === 28, largestCommonFactor(1848, 1820))
+                assert("works for 1000 and 500", largestCommonFactor(1000, 500) === 500, largestCommonFactor(1000, 500))
+                assert("works for 500 and 1000", largestCommonFactor(500, 1000) === 500, largestCommonFactor(500, 1000))
+                assert("works for 101 and 107", largestCommonFactor(101, 107) === 1, largestCommonFactor(101, 107))
+            }
+        ];
+
+        sections
+            .map((s, i) => {
+                const wrapped = wrapper[i] ? wrapSolution(wrapper[i], s) : s
+                return [getBody(setup[i]), wrapped, `const solution=\`${s}\``, getBody(assertions[i])]
+            })
+            .forEach((bits, i) => {
+                print(`Exercise ${i+1}:`, 'h3')
+                try {
+                    console.log(new Function(bits.join(';\n')))
+                    new Function(bits.join(';\n'))()
+                } catch (err) {
+                    assert("code does not contain errors:", false, err)
+                }
+            });
+
+    </script>
+</body>
+</html>
