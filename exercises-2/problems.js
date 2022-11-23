@@ -48,12 +48,12 @@ window.answers = () => {
 
 
     // #7 This for loop prints a 3x3 square of #s. Use a nested for-loop to make it print a square of numbers instead (123, 456, 789)
-    let row = 0
-    for (let i=1; i<=3; i++) {
+    let num = 0
+    for (let i=0; i<3; i++) {
         let line = ""
         for (let j=0; j<3; j++){
-            row ++
-            line += row 
+            num ++
+            line += num 
         }
         console.log(line)
     }
