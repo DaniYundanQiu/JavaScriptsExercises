@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript 3 - Arrays and Objects</title>
+</head>
+<body>
+    <h1>JavaScript 3 - Arrays and Objects - Problem results</h1>
+    <p> (Refresh to update) </p>
+    <style>
+        body {
+            width: 50%;
+            margin: 0 auto;
+            font-family: sans-serif;
+            padding-bottom: 100px;
+        }
+        pre {
+            display: inline;
+            background-color: #eee;
+            padding: 2px;
+            border-radius: 2px;
+        }
+    </style>
+    <script src="problems-1.js"></script>
+    <script src="problems-2.js"></script>
+    <script src="problems-3.js"></script>
+    <script src="problems-4.js"></script>
+    <script src="problems-5.js"></script>
+    <script src="problems-6.js"></script>
+    <script src="problems-7.js"></script>
+    <script src="problems-8.js"></script>
+    <script type="text/javascript">
+    const testCases = {
+        isSortedAndHow: [
+            [[1, 2], 'yes, ascending'],
+            [[0, 5, 7, 12, 31], 'yes, ascending'],
+            [[15, 7, 3, -8], 'yes, descending'],
+            [[1, -1], 'yes, descending'],
+            [[4, 2, 30], 'no'],
+            [[4, 2, 30, 200, 1, -40, -200], 'no'],
+        ],
+        sumTwoSmallestNumbers: [
+            [[5, 8, 12, 19, 22], 13],
+            [[15, 28, 4, 2, 43], 6],
+            [[3, 87, 45, 12, 7], 10],
+            [[23, 71, 33, 82, 1], 24],
+            [[52, 76, 14, 12, 4], 16],
+        ],
+        duplicateEncode: [
+            ["din", "((("],
+            ["recede", "()()()"],
+            ["Success", ")())())"],
+            ["(( @", "))(("],
+        ],
+        findEvenIndex: [
+            [[1, 2, 3, 4, 3, 2, 1], 3],
+            [[1, 100, 50, -51, 1, 1], 1],
+            [[1, 2, 3, 4, 5, 6], -1],
+            [[20, 10, 30, 10, 10, 15, 35], 3],
+        ],
+        findUnique: [
+            [[1, 8, 4, 4, 6, 1, 8], 6],
+            [[1234567], 1234567],
+            [[1, 4, 4, 5, 5, 3, 3, 2, 2], 1],
+            [[2, 2, 5, 5, 4, 3, 3, 1, 1], 4],
+            [[3, 5, 5, 4, 4, 3, 2, 2, 9], 9],
+        ],
+        reverseVowels: [
+            ["Hello!", "Holle!"],
+            ["Tomatoes", "Temotaos"],
+            ["Reverse Vowels In A String", "RivArsI Vewols en e Streng"],
+        ],
+        encrypt: [
+            ["abababab", 0, "abababab"],
+            ["abababab", 1, "bbbbaaaa"],
+            ["abababab", 2, "bbaabbaa"],
+            ["This is a test!", 0, "This is a test!"],
+            ["This is a test!", 1, "hsi  etTi sats!"],
+            ["This is a test!", 2, "s eT ashi tist!"],
+            ["This is a test!", 3, " Tah itse sits!"],
+            ["This is a test!", 4, "This is a test!"],
+            ["This is a test!", -1, "This is a test!"],
+            ["This kata is very interesting!", 1, "hskt svr neetn!Ti aai eyitrsig"],
+            ["", 0, ""],
+            [null, 0, null],
+        ],
+        decrypt: [
+            ["abababab", 0, "abababab"],
+            ["bbbbaaaa", 1, "abababab"],
+            ["bbaabbaa", 2, "abababab"],
+            ["This is a test!", 0, "This is a test!"],
+            ["hsi  etTi sats!", 1, "This is a test!"],
+            ["s eT ashi tist!", 2, "This is a test!"],
+            [" Tah itse sits!", 3, "This is a test!"],
+            ["This is a test!", 4, "This is a test!"],
+            ["This is a test!", -1, "This is a test!"],
+            ["hskt svr neetn!Ti aai eyitrsig", 1, "This kata is very interesting!"],
+            ["", 0, ""],
+            [null, 0, null],
+        ],
+        react: [
+            ["abcCBA", ""],
+            ["EaAbBCceDdFGfg", "FGfg"],
+            ["AzxZxaBBbb", "AzxZxa"],
+            ["AAAAaaaa", ""],
+            ["Ba🚗Ab", "Ba🚗Ab"],
+        ],
+    }
+    
+    const solutions = window.solutions || {}
+
+    const print = (str, elem='div') => {
+        const line = document.createElement(elem);
+        line.innerHTML = str;
+        document.body.appendChild(line);
+    }
+
+    Object.entries(testCases).forEach(([fnName, testCases], i) => {
+        const fn = solutions[fnName]
+        print(`${i+1} - ${fnName}`, 'h2')
+        if (!fn) {
+            print("❌ Solution could not be found! Check console for errors")
+            return
+        }
+        testCases.forEach(params => {
+            try {
+                const args = params.slice(0, -1)
+                const exp = params[params.length-1]
+                const got = fn(...args)
+                const pass = JSON.stringify(got) === JSON.stringify(exp)
+                if (pass) {
+                    print("✅ PASS!")
+                } else {
+                    let description = ""
+                    try {
+                        if (args) {
+                            description = `${args.map(a => JSON.stringify(a)).join(",")}`
+                        }
+                    } catch(err) {
+                        print("❌ Could not parse description")
+                    }
+                    print(`❌ expected <pre>${fnName}(${description})</pre> to return <pre>${JSON.stringify(exp)}</pre> but got <pre>${JSON.stringify(got)}</pre>`)
+                }
+            } catch(err) {
+                let description = ""
+                try {
+                    if (args) {
+                        description = `${args.map(a => JSON.stringify(a)).join(",")}`
+                    }
+                } catch(err) {
+                    print("❌ Could not parse description")
+                }
+                
+                print(`❌ ${fnName}${description} returned error: ${err}`)
+            }
+        })
+    });
+    
+    </script>
+</body>
+</html>
