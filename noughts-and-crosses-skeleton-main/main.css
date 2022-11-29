@@ -1,0 +1,59 @@
+.column {
+    width: 100px;
+    height: 100px;
+    margin: 0px;
+    /* border: 2px black solid; */
+    border: 2px whitesmoke solid;
+    background-color: darkviolet;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 80px;
+}
+
+.row {
+    width: 400px;
+    margin: 0px auto;
+    display: flex;
+    justify-content: center;
+}
+
+#title {
+    color: indigo;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.marker {
+    width: 80px;
+    height: 80px;
+}
+
+#winner-display {
+    display: none;
+    background-color: darkorchid;
+    padding: 10px;
+    color: whitesmoke;
+}
+
+body {
+    text-align: center;
+}
+
+#reset-button{
+    margin-top: 10px;
+    background-color: thistle;
+    border: 1px darkviolet;
+    border-radius: 6px;
+    color: indigo;
+    padding: 11px 28px;
+    font-size: 16px;
+    cursor: pointer;
+
+}
+
+#reset-button:hover {
+    background-color: darkviolet;
+    color: whitesmoke;
+}
+
